@@ -19,10 +19,10 @@ body {
 	font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 p > a {
-	color: #E4755A;
+	color: #12A5F4;
 }
 a {
-	color: #E4755A;
+	color: #12A5F4;
 }
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -184,10 +184,10 @@ input.fieldWithIcon {
 	border-radius: 3px;
 }
 .buttonDefault {
-	background-color: #E4755A;
+	background-color: #12A5F4;
 }
 .highlightDefault {
-	background-color: #E4755A;
+	background-color: #12A5F4;
 }
 .alertBox {
 	border-radius: 3px;
@@ -212,7 +212,7 @@ input.fieldWithIcon {
 	padding-right: 24px;
 	z-index: 9990;
 	height: 54px;
-	background-color: #e4755a;
+	background-color: #12A5F4;
 }
 .accountButton {
 	float: left;
@@ -245,7 +245,7 @@ input.fieldWithIcon {
 	margin-left: 24px;
 	margin-right: 24px;
 	z-index: 9999;
-	background-color: #e4755a;
+	background-color: #12A5F4;
 }
 .mainMenuBottomDecoration {
 	margin-right: 24px;
@@ -288,7 +288,7 @@ input.fieldWithIcon {
 	color: #fff;
 }
 .shoppingCartWrapper {
-	background-color: #e4755a;
+	background-color: #12A5F4;
 	margin-left: 24px;
 	margin-right: 24px;
 	display: none;
@@ -544,7 +544,7 @@ a.nivo-prevNav:hover {
 	margin-top: -24px;
 	height: 48px;
 	width: 48px;
-	background: #e4755a url(../images/common/sliderArrowsBg.png) 0 0 no-repeat;
+	background: #12A5F4 url(../images/common/sliderArrowsBg.png) 0 0 no-repeat;
 	z-index: 9999;
 }
 .previousSlideButton {
@@ -572,7 +572,7 @@ a.nivo-prevNav:hover {
 .sectionTitleLink {
 	float: right;
 	font-size: 10px;
-	color: #e4755a;
+	color: #12A5F4;
 }
 .homeProductsWrapper {
 	padding-left: 36px;
@@ -897,7 +897,7 @@ input.advancedSearchButton {
 	height: auto;
 }
 li.currentSingleProductGalleryMenuItem {
-	border-color: #e4755a;
+	border-color: #12A5F4;
 	transition: border-color 0.3s;
 }
 .singleProductPurchaseButton, .singleProductPurchaseButton:hover {
@@ -1085,7 +1085,7 @@ input.checkoutCheckoutButton {
 	text-decoration: none;
 }
 .portfolioMenuWrapper .currentPortfolioFilter {
-	color: #e4755a;
+	color: #12A5F4;
 }
 .portfolioOneFilterableWrapper {
 	padding-left: 24px;
@@ -1810,7 +1810,7 @@ input.fieldHasError, textarea.fieldHasError {
 .footerWrapper {
 	padding-left: 24px;
 	padding-right: 24px;
-	background-color: #e4755a;
+	background-color: #12A5F4;
 	height: 54px;
 	overflow: visible;
 	margin-left: 24px;
