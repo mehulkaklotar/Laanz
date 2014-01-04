@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="header.js"></script>
+		<script>
+			var orderID, itemIndex = 0;
+			$(document).on('backbutton', function() {
+				navigator.app.backHistory();
+			});
+			$(document).on('deviceready', function() {
+
+				var items = $.parseJSON(window.localStorage.getItem("items"));
+				$("#orderButton").click(function() {
+
+					var sendData = {
+						"operation" : 'addOrder',
+						"name" : $("#name").val(),
+						"email" : $("#email").val(),
+						"phone" : $("#phone").val(),
+						'pickup' : $("#pickup").val()
+					};
+					$.post(url + "order.php", sendData, function(data) {
+						orderID = data;
+						//show loader when process strart
+						$("#active_pane").showLoading();
+						uploadPhoto(items[itemIndex]);
+					});
+
+					function uploadPhoto(item) {
+						if (itemIndex < items.length) {
+
+							var imageID = orderID + "" + itemIndex;
+							imgURI = item.img;
+							var options = new FileUploadOptions();
+							options.fileKey = "file";
+							options.fileName = imgURI.substr(imgURI.lastIndexOf('/') + 1);
+							options.mimeType = "image/jpeg";
+							var params = new Object();
+							params.operation = "addOrderPhotos";
+							params.orderID = orderID;
+							params.img = imageID;
+							params.qty = item.qty;
+							options.params = params;
+							options.chunkedMode = false;
+							var ft = new FileTransfer();
+							var acc = []
+							ft.upload(imgURI, url + "order.php", function(data) {
+								itemIndex++;
+								uploadPhoto(items[itemIndex]);
+
+							}, function(data) {
+
+							}, options);
+						} else {
+							//executed when all file upload
+							// for hide loader when upload is comleted
+							$("#active_pane").hideLoading();
+							alert("Order Placed Successfully");
+							window.location = "index.html";
+						}
+
+					}
+
+				});
+
+				/*  */
+			});
+
+		</script>
+	</head>
+	<body>
+		<div id="active_pane">
+			<!-- website wrapper starts -->
+			<div class="websiteWrapper">
+				<!-- page wrapper starts -->
+				<div class="pageWrapper checkoutPageWrapper">
+					<!-- main menu outer wrapper starts -->
+					<div class="includedContent"></div>
+					<!-- main menu outer wrapper ends -->
+
+					<!-- header outer wrapper starts -->
+					<div class="headerOuterWrapper">
+						<div class="headerWrapper">
+							<a href="login.html" class="addButton"></a>
+							<a href="#" class="shoppingCartButton"></a>
+							<a href="#" class="mainMenuButton"></a>
+						</div>
+						<div class="headerDecoration"></div>
+
+						<!-- main logo starts -->
+						<a href="#" class="mainLogo"><img src="images/logo.png" alt="" /></a>
+						<!-- main logo ends -->
+					</div>
+					<!-- header outer wrapper ends -->
+
+					<!-- page content wrapper starts -->
+					<div class="pageContentWrapper">
+
+						<div class="headerBreak headerBreakTitleBottom"></div>
+
+						<!-- page title starts -->
+
+						<!-- page title ends -->
+
+						<!-- checkout form starts -->
+						<div class="registerFormWrapper">
+
+							<fieldset>
+								<div class="formFieldWrapper">
+									<label for="registerFirstNameField">Name:</label>
+									<input type="text" value="" id="name" class="registerFirstNameField fieldWithIcon userFieldIcon"	name="registerFirstNameField" />
+								</div>
+
+								<div class="formFieldWrapper">
+									<label for="registerEmailField">Email:</label>
+									<input type="email" value="" id="email" class="registerEmailField fieldWithIcon emailFieldIcon" name="registerEmailField" />
+								</div>
+								<div class="formFieldWrapper">
+									<label for="registerPhoneField">Phone:</label>
+									<input type="tel" value="" id="phone" class="registerPhoneField fieldWithIcon phoneFieldIcon" name="registerPhoneField" />
+								</div>
+
+								<div class="formFieldWrapper">
+									<label>Choose Pickup Point:</label>
+									<select id="pickup" class="drop-downWrapper">
+										<option>CAC</option>
+										<option>Library</option>
+										<option>Rectory staircase</option>
+									</select>
+								</div>
+
+								<div class="registerButtonsWrapper">
+									<input type="button" value="Checkout" class="registerButton" id="orderButton"/>
+								</div>
+							</fieldset>
+
+						</div>
+						<!-- checkout form ends -->
+					</div>
+					<!-- page content wrapper ends -->
+
+					<div class="footerDecoration"></div>
+					<!-- footer wrapper starts -->
+					<div class="footerWrapper">
+						<span class="copyright">&copy; copyright Laanz.</span><span class="footerLinksWrapper"><a href="#" class="footerLink">Help</a><a href="#" class="footerLink">Terms</a></span>
+					</div>
+					<!-- footer wrapper ends -->
+
+				</div>
+				<!-- page wrapper ends -->
+			</div>
+			<!-- website wrapper ends -->
+		</div>
+	</body>
+</html>

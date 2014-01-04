@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="header.js"></script>
+		<script>
+			var totItem = 0, itemIndex = 0;
+			$(document).on('backbutton', function() {
+				navigator.app.backHistory();
+			});
+
+			$(document).on('deviceready', function() {
+				$("#includedContent").load("menu.html");
+
+				addItem($.url().param('img'));
+
+				$("#Choose").on("click", function() {
+					navigator.camera.getPicture(function(imgURI) {
+						addItem(imgURI);
+					}, function() {
+
+					}, {
+						quality : 50,
+						destinationType : navigator.camera.DestinationType.FILE_URI,
+						sourceType : navigator.camera.PictureSourceType.PHOTOLIBRARY
+					});
+				});
+
+				$("#checkoutCheckoutButton").click(function() {
+					jsonObj = [];
+					for (var i = 1; i <= itemIndex; i++) {
+						if ($("#img" + i).attr('src') != null && $("#qty" + i).val() != null) {
+							item = {}
+							item["img"] = $("#img" + i).attr('src');
+							item["qty"] = $("#qty" + i).val();
+
+							jsonObj.push(item);
+							
+						}
+
+					}
+					jsonString = JSON.stringify(jsonObj);
+					window.localStorage.setItem("items", jsonString);
+					window.location="orderDetail.html"
+				});
+			});
+
+			function removeItem(id) {
+
+				totItem = totItem - parseInt($("#qty" + id).val());
+
+				$(".checkoutProductsNumber").html(totItem);
+				$(".checkoutProductsTotal").html(totItem * 1);
+				$("#" + id).parent().parent().parent().fadeOut(300);
+				$("#" + id).parent().parent().parent().remove();
+			}
+
+			function updateItem(element) {
+				if (element.value <= 0 || element.value == '') {
+					alert("Invalid Quantity");
+					element.value = element.oldvalue;
+				} else {
+					totItem = totItem - parseInt(element.oldvalue);
+					totItem = totItem + parseInt(element.value);
+					$(".checkoutProductsNumber").html("Total Quantity: " + totItem);
+					$(".checkoutProductsTotal").html("Total Price: " + totItem * 1);
+				}
+
+			}
+
+			function addItem(imgURI) {
+				totItem++;
+				itemIndex++;
+				$(".checkoutProductsNumber").html("Total Quantity: " + totItem);
+				$(".checkoutProductsTotal").html("Total Price: " + totItem * 1);
+				$('#cart').append("<div class='checkoutProductWrapper'><a href='#' class='checkoutProductImageWrapper'><img src='" + imgURI + "' id='img" + itemIndex + "' class='checkoutProductImage' alt=''></a><div class='checkoutProductInfoWrapper'><a class='checkoutProductTitle'>Product One</a><div class='checkoutProductButtonsWrapper'><input type='number' id='qty" + itemIndex + "' onchange='updateItem(this);this.oldvalue = this.value;' class='checkoutProductNumber' value='1' onfocus='this.oldvalue = this.value;'><span class='checkoutProductPrice'>Rc 1</span><a id='" + itemIndex + "' onclick='removeItem(" + itemIndex + ");' class='checkoutRemoveProductButton'/></a></div></div></div>");
+
+			}
+
+		</script>
+	</head>
+	<body>
+		<!-- website wrapper starts -->
+		<div class="websiteWrapper">
+			<!-- page wrapper starts -->
+			<div class="pageWrapper checkoutPageWrapper">
+				<!-- main menu outer wrapper starts -->
+				<div class="includedContent"></div>
+				<!-- main menu outer wrapper ends -->
+
+				<!-- header outer wrapper starts -->
+				<div class="headerOuterWrapper">
+					<div class="headerWrapper">
+						<a href="index.html" class="addButton"></a>
+						<a id="Choose" class="shoppingCartButton"></a>
+						<a class="mainMenuButton"></a>
+					</div>
+					<div class="headerDecoration"></div>
+
+					<!-- main logo starts -->
+					<a href="#" class="mainLogo"><img src="images/logo.png" alt="" /></a>
+					<!-- main logo ends -->
+				</div>
+				<!-- header outer wrapper ends -->
+
+				<!-- page content wrapper starts -->
+				<div class="pageContentWrapper">
+
+					<div class="headerBreak headerBreakTitleBottom"></div>
+
+					<!-- page title starts -->
+
+					<!-- page title ends -->
+
+					<!-- checkout form starts -->
+
+					<fieldset>
+						<div id="cart">
+
+						</div>
+
+						<!-- checkout info wrapper starts -->
+						<div class="checkoutInfoWrapper">
+							<span class="checkoutProductsNumber">Products: </span><span class="checkoutProductsTotal"></span>
+						</div>
+						<!-- checkout info wrapper ends -->
+
+						<div class="checkoutButtonsWrapper">
+							<input type="button" value="Next" id="checkoutCheckoutButton" class="checkoutCheckoutButton"/>
+						</div>
+					</fieldset>
+
+					<!-- checkout form ends -->
+				</div>
+				<!-- page content wrapper ends -->
+
+				<div class="footerDecoration"></div>
+				<!-- footer wrapper starts -->
+				<div class="footerWrapper">
+					<span class="copyright">&copy; copyright Laanz.</span><span class="footerLinksWrapper"><a href="#" class="footerLink">Help</a><a href="#" class="footerLink">Terms</a></span>
+				</div>
+				<!-- footer wrapper ends -->
+
+			</div>
+			<!-- page wrapper ends -->
+		</div>
+		<!-- website wrapper ends -->
+	</body>
+
+	<!-- Mirrored from envato.pixek.com/mobile/items/themeforest/shopey/ by HTTrack Website Copier/3.x [XR&CO'2013], Mon, 23 Dec 2013 15:08:55 GMT -->
+</html>
