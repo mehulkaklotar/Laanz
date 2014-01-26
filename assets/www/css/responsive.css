@@ -1,34 +1,130 @@
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//////////////////// Responsive Framework CSS Rules Start                                                               */
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-@media screen and (min-width: 420px) {
-.mainMenuWrapper {
-	padding-right: 24px;
-	padding-left:36px;
-	width: auto;
+@media screen and (min-width: 240px) {
+     .pageContentWrapper{
+        min-height: 350px;
+    }
+    .pageContentWrapper img{
+        width:80%;
+        height:25%;
+        margin: 0 auto;
+        margin-top:15%;
+    }
+    
+    .pageContentWrapper input{
+        margin-top:15%;
+        margin-bottom:50px;; 
+    }
 }
-.mainMenuWrapper > li {
-	float: left;
-	width:50%;
-	box-sizing:border-box;
+
+
+@media screen and (min-width: 300px) {
+    .pageContentWrapper{
+        min-height: 380px;
+    }
+    .pageContentWrapper img{
+        width:80%;
+        height:25%;
+        margin: 0 auto;
+        margin-top:15%;
+    }
+    
+    .pageContentWrapper input{
+        margin-top:15%;
+        margin-bottom:50px;; 
+    }
 }
-.mainMenuWrapper > li:nth-child(odd){
-	margin-left:-12px;
+
+
+@media screen and (min-width: 480px) {
+   .pageContentWrapper{
+        min-height: 880px;
+    }
+    .pageContentWrapper img{
+        width:80%;
+        height:15%;
+        margin: 0 auto;
+        margin-top:30%;
+    }
+    
+    .pageContentWrapper input{
+        margin-top:15%;
+        margin-bottom:50px;; 
+    }
 }
-.mainMenuWrapper > li:nth-child(even){
-	margin-left:12px;
+
+@media screen and (min-width: 600px) {
+   .pageContentWrapper{
+        min-height: 700px;
+    }
+    .pageContentWrapper img{
+        width:60%;
+        height:20%;
+        margin: 0 auto;
+        margin-top:20%;
+    }
+    
+    .pageContentWrapper input{
+        margin-top:15%;
+        margin-bottom:50px;; 
+    }
 }
+
+@media screen and (min-width: 768px) {
+   .pageContentWrapper{
+        min-height: 900px;
+    }
+    .pageContentWrapper img{
+        width:60%;
+        height:40%;
+        margin: 0 auto;
+        margin-top:40%;
+    }
+    
+    .pageContentWrapper input{
+        margin-top:10%;
+        margin-bottom:50px;; 
+    }
 }
-@media screen and (max-width: 380px) {
-.serviceWrapper {
-	float: none;
-	margin-right: 0px;
-	width: 100%;
+
+@media screen and (min-width: 800px) {
+    .pageContentWrapper{
+        min-height: 1280px;
+    }
+    .pageContentWrapper img{
+        width:60%;
+        height:20%;
+        margin: 0 auto;
+        margin-top:20%;
+    }
+    
+    .pageContentWrapper input{
+        margin-top:10%;
+        margin-bottom:50px;; 
+    }
 }
-.serviceWrapper:last-child {
-	border-bottom: 0px;
+
+@media screen and (min-width: 1024px) {
+    .pageContentWrapper{
+        min-height: 780px;
+    }
+    .pageContentWrapper img{
+        width:60%;
+        height:10%;
+        margin: 0 auto;
+        margin-top:20%;
+    }
+    
+    .pageContentWrapper input{
+        margin-top:10%;
+        margin-bottom:50px;; 
+    }
 }
-}
+
+
+
+
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//////////////////// Responsive Framework CSS Rules End                                                                 */
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
