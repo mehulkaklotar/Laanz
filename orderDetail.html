@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="header.js"></script>
+        <script>
+            var orderID, itemIndex = 0;
+            $(document).on('backbutton', function() {
+                navigator.app.backHistory();
+            });
+            $(document).on('deviceready', function() {
+
+                var items = $.parseJSON(window.localStorage.getItem("items"));
+                $("#orderButton").click(function() {
+
+                    var sendData = {
+                        "operation": 'addOrder',
+                        "name": $("#name").val(),
+                        "email": $("#email").val(),
+                        "phone": $("#phone").val(),
+                        'pickup': $("#pickup").val()
+                    };
+
+                    $.post("http://laanz-hachiassignment.rhcloud.com/order.php", sendData, function(data) {
+                        orderID = data;
+                        //show loader when process strart
+                        $("#active_pane").showLoading();
+                        var i = 0;
+                        for (i = 0; i < items.length; i++) {
+                            uploadPhoto(items[i], i);
+                        }
+                    });
+
+                    function uploadPhoto(item, itemIndex) {
+                        var imageID = orderID + itemIndex;
+                        imageURI = item.img;
+
+                        var options = new FileUploadOptions();
+                        options.fileKey = "file";
+                        options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+                        options.mimeType = "image/jpeg";
+
+                        var params = new Object();
+                        params.operation = "addOrderPhotos";
+                        params.orderID = orderID;
+                        params.imageID = imageID;
+                        params.qty = item.qty;
+
+                        options.params = params;
+                        options.chunkedMode = false;
+
+                        var ft = new FileTransfer();
+                        ft.upload(imageURI, "http://laanz-hachiassignment.rhcloud.com/order.php", win, fail, options);
+
+                    }
+
+                    function win(r) {
+                        console.log("Code = " + r.responseCode);
+                        console.log("Response = " + r.response);
+                        console.log("Sent = " + r.bytesSent);
+                        //alert(r.response);
+
+                        //executed when all file upload
+                        // for hide loader when upload is comleted
+                        $("#active_pane").hideLoading();
+                        alert("Order Placed Successfully");
+                        window.location = "index.html";
+                    }
+
+                    function fail(error) {
+                        //alert("An error has occurred: Code = " = error.code);
+                    }
+
+                });
+
+                /*  */
+            });
+
+            function backButton() {
+                navigator.app.backHistory();
+            }
+
+        </script>
+    </head>
+    <body>
+        <div id="active_pane">
+            <div class="websiteWrapper">
+                <div class="pageWrapper checkoutPageWrapper">
+                    <div class="mainMenuOuterWrapper">
+                        <ul class="mainMenuWrapper">
+                            <li>
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="javascript:backButton();">Cart</a>
+                            </li>
+                        </ul>
+                        <div class="mainMenuBottomDecoration"></div>
+                    </div>
+                    <div class="headerOuterWrapper">
+                        <div class="headerWrapper">
+                            <a href="javascript:backButton();" id="backButton" class="addButton"></a>
+                            <a href="#" class="mainMenuButton"></a>
+                        </div>
+                        <div class="headerDecoration"></div>
+                        <a href="#" class="mainLogo"><img src="images/logo-small.png" alt="" /></a>
+                    </div>
+                    <div class="pagecartContentWrapper">
+                        <div class="headerBreak headerBreakTitleBottom"></div>
+                        <div class="registerFormWrapper">
+                            <fieldset>
+                                <div class="formFieldWrapper">
+                                    <label for="registerFirstNameField">Name:</label>
+                                    <input type="text" value="" style='border:solid 1px #12A5F4;' id="name" class="registerFirstNameField fieldWithIcon userFieldIcon"	name="registerFirstNameField" />
+                                </div>
+                                <div class="formFieldWrapper">
+                                    <label for="registerEmailField">Email:</label>
+                                    <input type="email" value="" style='border:solid 1px #12A5F4;' id="email" class="registerEmailField fieldWithIcon emailFieldIcon" name="registerEmailField" />
+                                </div>
+                                <div class="formFieldWrapper">
+                                    <label for="registerPhoneField">Phone:</label>
+                                    <input type="tel" value="" style='border:solid 1px #12A5F4;' id="phone" class="registerPhoneField fieldWithIcon phoneFieldIcon" name="registerPhoneField" />
+                                </div>
+                                <div class="formFieldWrapper">
+                                    <label>Choose Pickup Point:</label>
+                                    <select id="pickup" class="drop-downWrapper">
+                                        <option>CAC</option>
+                                        <option>Library</option>
+                                        <option>Rectory staircase</option>
+                                    </select>
+                                </div>
+                                <div class="registerButtonsWrapper">
+                                    <input type="button" value="Checkout" class="registerButton" id="orderButton"/>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div id="footer">
+                        <div  class="footerDecoration"></div>
+                        <div class="footerWrapper">
+                            <span class="copyright">&copy; copyright Laanz.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

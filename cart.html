@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="header.js"></script>
+        <script>
+            var totItem = 0, itemIndex = 0;
+            $(document).on('backbutton', function() {
+                navigator.app.backHistory();
+            });
+
+            $(document).on('deviceready', function() {
+                if ($.url().param('img')) {
+                    addItem($.url().param('img'));
+                }
+                $("#Choose").on("click", function() {
+                    navigator.camera.getPicture(function(imgURI) {
+                        addItem(imgURI);
+                    }, function() {
+
+                    }, {
+                        quality: 100,
+                        destinationType: navigator.camera.DestinationType.FILE_URI,
+                        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+                    });
+                });
+
+                $("#checkoutCheckoutButton").click(function() {
+                    jsonObj = [];
+                    for (var i = 1; i <= itemIndex; i++) {
+                        if ($("#img" + i).attr('src') != null && $("#qty" + i).val() != null) {
+                            item = {}
+                            item["img"] = $("#img" + i).attr('src');
+                            item["qty"] = $("#qty" + i).val();
+
+                            jsonObj.push(item);
+
+                        }
+
+                    }
+                    jsonString = JSON.stringify(jsonObj);
+                    window.localStorage.setItem("items", jsonString);
+                    window.location = "orderDetail.html"
+                });
+            });
+
+            function removeItem(id) {
+
+                totItem = totItem - parseInt($("#qty" + id).val());
+                if (totItem == 0) {
+                    $('#noitem').show();
+                    $(".checkoutProductsNumber").html("Total Quantity: " + totItem);
+                    $(".checkoutProductsTotal").html("Total Price: " + totItem);
+                }
+                $(".checkoutProductsNumber").html("Total Quantity: " + totItem);
+                $(".checkoutProductsTotal").html("Total Price: " + totItem * 1);
+                $("#" + id).parent().parent().parent().fadeOut(300);
+                $("#" + id).parent().parent().parent().remove();
+            }
+
+            function updateItem(element) {
+                if (element.value <= 0 || element.value == '') {
+                    alert("Invalid Quantity");
+                    element.value = element.oldvalue;
+                } else {
+                    totItem = totItem - parseInt(element.oldvalue);
+                    totItem = totItem + parseInt(element.value);
+                    $(".checkoutProductsNumber").html("Total Quantity: " + totItem);
+                    $(".checkoutProductsTotal").html("Total Price: " + totItem * 1);
+                }
+
+            }
+
+            function addItem(imgURI) {
+                totItem++;
+                itemIndex++;
+                $(".checkoutProductsNumber").html("Total Quantity: " + totItem);
+                $(".checkoutProductsTotal").html("Total Price: " + totItem * 1);
+                $('#noitem').hide();
+                $('#cart').append("<div class='checkoutProductWrapper'><a href='#' class='checkoutProductImageWrapper'><img src='" + imgURI + "' id='img" + itemIndex + "' class='checkoutProductImage' alt=''></a><div class='checkoutProductInfoWrapper'><div class='checkoutProductButtonsWrapper'><input type='number' style='border:solid 1px #12A5F4;' id='qty" + itemIndex + "' onblur='updateItem(this);this.oldvalue = this.value;' class='checkoutProductNumber' value='1' onfocus='this.oldvalue = this.value;'><span class='checkoutProductPrice'> * Rc.1</span><a id='" + itemIndex + "' onclick='removeItem(" + itemIndex + ");' class='checkoutRemoveProductButton'/></a></div></div></div>");
+
+            }
+
+        </script>
+    </head>
+    <body>
+        <div class="websiteWrapper">
+            <div class="pageWrapper checkoutPageWrapper">
+                <div class="mainMenuOuterWrapper">
+                    <ul class="mainMenuWrapper">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="currentPage">
+                            <a href="cart.html">Cart</a>
+                        </li>
+                    </ul>
+                    <div class="mainMenuBottomDecoration"></div>
+                </div>
+                <div class="headerOuterWrapper">
+                    <div class="headerWrapper">
+                        <a href="index.html" class="addButton"></a>
+                        <a id="Choose" class="addToCart"></a>
+                        <a class="mainMenuButton"></a>
+                    </div>
+                    <div class="headerDecoration"></div>
+                    <a href="#" class="mainLogo"><img src="images/logo-small.png" alt="" /></a>
+                </div>
+                <div class="pagecartContentWrapper">
+                    <div class="headerBreak headerBreakTitleBottom"></div>
+                    <fieldset>
+                        <div id="cart">
+                            <span id="noitem">No Photos to print.</span>
+                        </div>
+                        <div class="checkoutInfoWrapper">
+                            <span class="checkoutProductsNumber">Products: </span><span class="checkoutProductsTotal"></span>
+                        </div>
+                        <div class="checkoutButtonsWrapper">
+                            <input type="button" value="Next" id="checkoutCheckoutButton" class="checkoutCheckoutButton"/>
+                        </div>
+                    </fieldset>
+                </div>
+                <div id="footer">
+                    <div  class="footerDecoration"></div>
+                    <div class="footerWrapper">
+                        <span class="copyright">&copy; copyright Laanz.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
